@@ -9,9 +9,10 @@ class ImgPreload extends ImgEventHandler {
   readonly images: ArrayLike<HTMLImageElement> // collection of images
   readonly shade: HTMLElement // shade for covering page while images are loading
   readonly currentLoadingImg: HTMLImageElement // the image being loading
-  readonly progress: number = 0// the progress of images loading
   readonly onLoad: ImgCallback["onLoad"]
   readonly onError: ImgCallback["onError"]
+  progress: number = 0 // the progress of images loading
+  protected loadedCount: number = 0
 
   constructor(onLoad: ImgCallback["onLoad"] = NOOP, onError: ImgCallback["onError"] = NOOP) {
 
@@ -44,7 +45,7 @@ class ImgPreload extends ImgEventHandler {
     const images = this.images
     for (let i = 0; i < images.length; i++) {
       const img = images[i]
-      
+
       this.handleImgLoaded(img)
       this.handleImgLoadFaild(img)
     }
