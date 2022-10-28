@@ -8,9 +8,10 @@ export interface ImgCallback {
 class ImgPreload extends ImgEventHandler {
   readonly images: ArrayLike<HTMLImageElement> // collection of images
   readonly shade: HTMLElement // shade for covering page while images are loading
-  readonly currentLoadingImg: HTMLImageElement // the image being loading
   readonly onLoad: ImgCallback["onLoad"]
   readonly onError: ImgCallback["onError"]
+  
+  currentLoadImg: HTMLImageElement | undefined // the image has loaded or failed
   progress: number = 0 // the progress of images loading
   protected loadedCount: number = 0
 
@@ -24,7 +25,6 @@ class ImgPreload extends ImgEventHandler {
 
     this.images = document.images
     this.shade = document.createElement('div')
-    this.currentLoadingImg = this.images[0]
     this.onLoad = onLoad
     this.onError = onError
     
