@@ -1,4 +1,5 @@
 import { default as ImgEventHandler, NOOP } from "./event"
+import Shade from './shade'
 
 export interface ImgCallback {
   onLoad(currentLoadedImg: HTMLImageElement): any
@@ -7,7 +8,7 @@ export interface ImgCallback {
 
 class ImgPreload extends ImgEventHandler {
   readonly images: ArrayLike<HTMLImageElement> // collection of images
-  readonly shade: HTMLElement // shade for covering page while images are loading
+  readonly shade: Shade // shade for covering page while images are loading
   readonly onLoad: ImgCallback["onLoad"]
   readonly onError: ImgCallback["onError"]
   
@@ -24,16 +25,16 @@ class ImgPreload extends ImgEventHandler {
     }
 
     this.images = document.images
-    this.shade = document.createElement('div')
     this.onLoad = onLoad
     this.onError = onError
+    this.shade = new Shade()
     
     this.bindEvent()
   }
 
   // for showing shade
   show() {
-    this.shade.style.display = 'none'
+    
   }
 
   // for hiding shade
