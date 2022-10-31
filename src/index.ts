@@ -1,1 +1,3 @@
-export * from "./model";
+import ImgPreload from "./model";
+
+export default ImgPreload;
