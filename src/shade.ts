@@ -18,17 +18,17 @@ class Shade {
       position: 'fixed',
       left: `-${marginLeft}px`,
       top: `-${marginTop}px`,
-      width: `calc(100vw + ${marginLeft + marginRight})`,
-      height: `calc(100vh + ${marginTop + marginBottom})`,
+      width: `calc(100vw + ${marginLeft + marginRight}px)`,
+      height: `calc(100vh + ${marginTop + marginBottom}px)`,
       backgroundColor: '#F3F3F3',
       opacity: '1',
       transition: 'opacity .4s'
     }
     
     // first render shade
-    for (let key of Object.keys(baseShadeStyle)) {
+    for (let [key, value] of Object.keys(baseShadeStyle)) {
       // @ts-expect-error
-      shade.style[key] = baseShadeStyle[key]
+      shade.style[key] = value
     }
 
     if (customShade) {
@@ -43,7 +43,7 @@ class Shade {
     }
 
     // add transition for hiding shade
-    this.shade.addEventListener('transitionend', () => {
+    shade.addEventListener('transitionend', () => {
       this.isHidden && (this.shade.style.display = 'none')
     })
 
