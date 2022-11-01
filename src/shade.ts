@@ -39,7 +39,7 @@ class Shade {
       this.isCustom = true
       shade.appendChild(customShade)
     } else {
-      this.renderShade(0)
+      this.render(0)
     }
 
     // add transition for hiding shade
