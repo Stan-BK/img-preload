@@ -107,7 +107,7 @@ class Shade {
         }
       }
     `)
-  }custom
+  }
 
   render(per: number) {
     if (this.isCustom) return
