@@ -26,7 +26,7 @@ class Shade {
     }
     
     // first render shade
-    for (let [key, value] of Object.keys(baseShadeStyle)) {
+    for (let [key, value] of Object.entries(baseShadeStyle)) {
       // @ts-expect-error
       shade.style[key] = value
     }
