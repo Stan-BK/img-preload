@@ -1,20 +1,29 @@
-type ShadeStyles = Partial<Record<keyof CSSStyleDeclaration, string>>
+type Styles = Partial<Record<keyof CSSStyleDeclaration, string>>
+type customColor = string | string[]
+
+interface ShadeOptions { 
+  customShade?: HTMLElement, 
+  customColor?: customColor 
+}
 
 class Shade {
   shade: HTMLElement
-  lastPercent: number = 0
-  lastTime: number = 0
-  target: number = 0
-  isHidden: boolean = false
-  isCustom: boolean = false
-  constructor(customShade?: HTMLElement) {
-    this.shade = this.initShade(customShade)
+  private lastPercent: number = 0
+  private lastTime: number = 0
+  private target: number = 0
+  private isHidden: boolean = false
+  private isCustom: boolean = false
+  private percentSign: HTMLElement = document.createElement('span')
+  constructor(shadeOptions: ShadeOptions = {}) {
+    const { customShade, customColor } = shadeOptions
+    this.shade = this.initShade(customShade, customColor)
   }
 
-  initShade(customShade?: HTMLElement) {
+  private initShade(customShade?: HTMLElement, customColor?: customColor) {
     const shade = document.createElement('div')
+
     const { marginLeft, marginRight, marginTop, marginBottom } = getBodyMargin()
-    const baseShadeStyle: ShadeStyles = {
+    const baseShadeStyle: Styles = {
       position: 'fixed',
       left: `-${marginLeft}px`,
       top: `-${marginTop}px`,
@@ -37,9 +46,14 @@ class Shade {
       }
       
       this.isCustom = true
+
+      this.percentSign.remove()
       shade.appendChild(customShade)
     } else {
-      this.render(0)
+      this.renderDefaultStyle(customColor)
+
+      shade.appendChild(this.percentSign)
+      this.render(100)
     }
 
     // add transition for hiding shade
@@ -52,6 +66,49 @@ class Shade {
     return shade
   }
 
+  renderDefaultStyle(customColor?: customColor) {
+    const LGBTQIA_style = 'linear-gradient(135deg, red, orange, yellow, green, blue, purple, red, orange, yellow, green, blue, purple, red)'
+    const bgc = customColor ? `linear-gradient(135deg, ${customColor.toString()})` : LGBTQIA_style
+    
+    const percentSignStyle: Styles = {
+      position: 'fixed',
+      left: '50vw',
+      top: ' 50vh',
+      fontSize: '94px',
+      fontWeight: 'bold',
+      background: bgc,
+      backgroundClip: 'text',
+      webkitBackgroundClip: 'text',
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: '200% 200%',
+      color: 'rgb(0, 0, 0, .2)',
+      transform: 'translate(-50%, -50%)',
+      lineHeight: '100%',
+      animation: 'animateBg infinite linear 2s',
+      fontFamily: 'sans-serif'
+    }
+    // render default shade style that with a percent-count
+    for (let [key, value] of Object.entries(percentSignStyle)) {
+      // @ts-expect-error
+      this.percentSign.style[key] = value
+    }
+
+    this.percentSign.innerHTML = `0%`
+    const styleSheet = document.createElement('style');
+    styleSheet.type = 'text/css';
+    document.head.appendChild(styleSheet)
+    styleSheet.sheet?.insertRule(`
+      @keyframes animateBg {
+        from {
+          background-position: 0% 0%;
+        }
+        to {
+          background-position: 100% 100%;
+        }
+      }
+    `)
+  }custom
+
   render(per: number) {
     if (this.isCustom) return
     this.target = per
@@ -60,11 +117,10 @@ class Shade {
 
   private renderShade(time: number = 0) {
     const per = this.lastPercent
-    if (per >= 100 || per === this.target) return
-
-    if (time - this.lastTime > 40) {
+    if (per > 100 || per > this.target) return
+    if (time - this.lastTime > 20) {
       this.lastTime = time
-      this.shade.style.background = `linear-gradient(to right,  #666 ${50 - per / 2}%, white , #666 ${50 + per / 2}%)`
+      this.percentSign.innerHTML = `${per}%`
     }
     
     this.lastPercent = per + 1
