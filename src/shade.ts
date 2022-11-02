@@ -123,6 +123,13 @@ class Shade {
     if (time - this.lastTime > 20) {
       this.lastTime = time
       this.percentSign.innerHTML = `${per}%`
+      this.shade.style.background = `linear-gradient(to right, #ccc, transparent ${50 - per / 2}%),
+                                     linear-gradient(to left, #ccc, transparent ${50 - per / 2}%),
+                                     linear-gradient(#f3f3f3, #f3f3f3)`
+
+      if (per === 100) {
+        setTimeout(() => this.hide(), 500)
+      }
     }
     
     this.lastPercent = per + 1
