@@ -1,6 +1,7 @@
 import { default as ImgEventHandler, NOOP } from "./event"
 import { default as Shade, ShadeOptions } from './shade'
-// import type ShadeOptions from './shade'
+import { images } from "./pool"
+
 interface ImgCallback {
   onLoad(currentLoadedImg: HTMLImageElement): any
   onError(currentErrorImg: HTMLImageElement): any
@@ -44,6 +45,8 @@ class ImgPreload extends ImgEventHandler {
     }
 
     this.images = document.images
+    images.splice(0, images.length, Array.from(this.images))
+
     this.isLazy = isLazy
     this.onLoad = onLoad
     this.onError = onError
