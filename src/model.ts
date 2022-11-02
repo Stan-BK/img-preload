@@ -52,12 +52,12 @@ class ImgPreload extends ImgEventHandler {
 
   // for showing shade
   show() {
-    
+    this.shade.show()
   }
 
   // for hiding shade
   hide() {
-
+    this.shade.hide()
   }
 
   bindEvent() {
