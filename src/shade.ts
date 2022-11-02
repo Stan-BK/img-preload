@@ -1,9 +1,9 @@
 type Styles = Partial<Record<keyof CSSStyleDeclaration, string>>
-type customColor = string | string[]
+type CustomColor = string | string[] | undefined
 
-interface ShadeOptions { 
+export interface ShadeOptions { 
   customShade?: HTMLElement, 
-  customColor?: customColor 
+  customColor?: CustomColor 
 }
 
 class Shade {
@@ -19,7 +19,7 @@ class Shade {
     this.shade = this.initShade(customShade, customColor)
   }
 
-  private initShade(customShade?: HTMLElement, customColor?: customColor) {
+  private initShade(customShade?: HTMLElement, customColor?: CustomColor) {
     const shade = document.createElement('div')
 
     const { marginLeft, marginRight, marginTop, marginBottom } = getBodyMargin()
@@ -66,7 +66,7 @@ class Shade {
     return shade
   }
 
-  renderDefaultStyle(customColor?: customColor) {
+  renderDefaultStyle(customColor?: CustomColor) {
     const LGBTQIA_style = 'linear-gradient(135deg, red, orange, yellow, green, blue, purple, red, orange, yellow, green, blue, purple, red)'
     const bgc = customColor ? Array.isArray(customColor) ? `linear-gradient(135deg, ${customColor.length === 1 ? customColor[0] + ',' + customColor[0] : customColor.toString()})`
                                                          : `linear-gradient(135deg, ${customColor}, ${customColor})`

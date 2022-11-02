@@ -1,9 +1,16 @@
 import { default as ImgEventHandler, NOOP } from "./event"
-import Shade from './shade'
-
-export interface ImgCallback {
+import { default as Shade, ShadeOptions } from './shade'
+// import type ShadeOptions from './shade'
+interface ImgCallback {
   onLoad(currentLoadedImg: HTMLImageElement): any
   onError(currentErrorImg: HTMLImageElement): any
+}
+
+interface ImgPreloadOptions {
+  onLoad: ImgCallback["onLoad"]
+  onError: ImgCallback["onError"]
+  customShade?: ShadeOptions["customShade"]
+  customColor?: ShadeOptions["customColor"]
 }
 
 class ImgPreload extends ImgEventHandler {
@@ -16,7 +23,15 @@ class ImgPreload extends ImgEventHandler {
   progress: number = 0 // the progress of images loading
   protected loadedCount: number = 0
 
-  constructor(onLoad: ImgCallback["onLoad"] = NOOP, onError: ImgCallback["onError"] = NOOP) {
+  constructor({
+    onLoad = NOOP, 
+    onError = NOOP,
+    customShade,
+    customColor
+  }: ImgPreloadOptions = {
+    onLoad: NOOP,
+    onError: NOOP
+  }) {
 
     super()
 
@@ -27,7 +42,10 @@ class ImgPreload extends ImgEventHandler {
     this.images = document.images
     this.onLoad = onLoad
     this.onError = onError
-    this.shade = new Shade()
+    this.shade = new Shade({
+      customShade,
+      customColor
+    })
     
     this.bindEvent()
   }
