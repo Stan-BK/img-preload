@@ -4,11 +4,14 @@ import { default as Shade, ShadeOptions } from './shade'
 interface ImgCallback {
   onLoad(currentLoadedImg: HTMLImageElement): any
   onError(currentErrorImg: HTMLImageElement): any
+  onFinish(loadedImgs: HTMLImageElement[], failedImgs: HTMLImageElement[]): any
 }
 
 interface ImgPreloadOptions {
-  onLoad: ImgCallback["onLoad"]
-  onError: ImgCallback["onError"]
+  isLazy?: boolean
+  onLoad?: ImgCallback["onLoad"]
+  onError?: ImgCallback["onError"]
+  onFinish?: ImgCallback["onFinish"]
   customShade?: ShadeOptions["customShade"]
   customColor?: ShadeOptions["customColor"]
 }
@@ -16,22 +19,23 @@ interface ImgPreloadOptions {
 class ImgPreload extends ImgEventHandler {
   readonly images: ArrayLike<HTMLImageElement> // collection of images
   readonly shade: Shade // shade for covering page while images are loading
+  readonly isLazy: boolean
   readonly onLoad: ImgCallback["onLoad"]
   readonly onError: ImgCallback["onError"]
+  readonly onFinish: ImgCallback["onFinish"]
   
   currentLoadImg: HTMLImageElement | undefined // the image has loaded or failed
   progress: number = 0 // the progress of images loading
   protected loadedCount: number = 0
 
   constructor({
+    isLazy = false,
     onLoad = NOOP, 
     onError = NOOP,
+    onFinish = NOOP,
     customShade,
     customColor
-  }: ImgPreloadOptions = {
-    onLoad: NOOP,
-    onError: NOOP
-  }) {
+  }: ImgPreloadOptions = {}) {
 
     super()
 
@@ -40,8 +44,10 @@ class ImgPreload extends ImgEventHandler {
     }
 
     this.images = document.images
+    this.isLazy = isLazy
     this.onLoad = onLoad
     this.onError = onError
+    this.onFinish = onFinish
     this.shade = new Shade({
       customShade,
       customColor
