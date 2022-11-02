@@ -68,7 +68,9 @@ class Shade {
 
   renderDefaultStyle(customColor?: customColor) {
     const LGBTQIA_style = 'linear-gradient(135deg, red, orange, yellow, green, blue, purple, red, orange, yellow, green, blue, purple, red)'
-    const bgc = customColor ? `linear-gradient(135deg, ${customColor.toString()})` : LGBTQIA_style
+    const bgc = customColor ? Array.isArray(customColor) ? `linear-gradient(135deg, ${customColor.length === 1 ? customColor[0] + ',' + customColor[0] : customColor.toString()})`
+                                                         : `linear-gradient(135deg, ${customColor}, ${customColor})`
+                            : LGBTQIA_style
     
     const percentSignStyle: Styles = {
       position: 'fixed',
