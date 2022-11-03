@@ -64,7 +64,7 @@ class ImgPreload extends ImgEventHandler {
 
   private init() {
     initPool(this.images)
-    this.isLazy && lazyLoad(this.lazySrcAttr)
+    lazyLoad(this.isLazy, this.lazySrcAttr)
     this.bindEvent()
   }
 

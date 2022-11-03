@@ -3,12 +3,17 @@ import { getOffset } from "./util";
 
 let lazySrcAttr: string
 
-export function lazyLoad(attr: string) {
+export function lazyLoad(isLazy: boolean, attr: string) {
   lazySrcAttr = attr
   let callback
   for (const image of images) {
     const isVisible = handleImageLoad(image)
     
+    if (!isLazy) {
+      loadImg(image)
+      continue
+    }
+
     if (!isVisible) {
       callback = handleImageLoad.bind(null, image, callback)
       document.addEventListener('scroll', callback)
