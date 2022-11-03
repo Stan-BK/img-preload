@@ -1,6 +1,7 @@
 import { default as ImgEventHandler, NOOP } from "./event"
 import { default as Shade, ShadeOptions } from './shade'
 import { initPool } from "./pool"
+import { lazyLoad } from "./lazyLoad"
 
 interface ImgCallback {
   onLoad(currentLoadedImg: HTMLImageElement): any
@@ -45,8 +46,6 @@ class ImgPreload extends ImgEventHandler {
     }
 
     this.images = document.images
-    initPool(this.images)
-
     this.isLazy = isLazy
     this.onLoad = onLoad
     this.onError = onError
@@ -60,6 +59,8 @@ class ImgPreload extends ImgEventHandler {
   }
 
   private init() {
+    initPool(this.images)
+    this.isLazy && lazyLoad()
     this.bindEvent()
   }
 
