@@ -1,28 +1,35 @@
 import { images } from "./pool";
 import { getOffset } from "./util";
-import { ImagePoolItem } from "./pool";
 
 export function lazyLoad() {
-  for (const item of images) {
-    const isVisible = handleImageLoad(item)
+  let callback
+  for (const image of images) {
+    const isVisible = handleImageLoad(image)
     
-    if (!isVisible && !item.image.complete) {
-      document.replaceChild(item.image, item.comment)
-      document.addEventListener('scroll', handleImageLoad.bind(null, item))
+    if (!isVisible) {
+      callback = handleImageLoad.bind(null, image, callback)
+      document.addEventListener('scroll', callback)
     }
   }
   
 }
 
-function handleImageLoad(item: ImagePoolItem) {
-  const { image, comment } = item 
+function handleImageLoad(image: HTMLImageElement, callback?: () => any) {
   const { offsetTop } = getOffset(image)
-
-  if (offsetTop > (window.innerHeight + window.scrollY - 100)) { // move up the image load-line
-    document.replaceChild(comment, image)
-    comment.remove()
+  
+  if (offsetTop > (window.innerHeight + window.scrollY + 500)) { // move up the image load-line
     return false
   } else {
+    loadImg(image)
+    if (callback) {
+      document.removeEventListener('scroll', callback)
+    }
     return true
+  }
+}
+
+function loadImg(image: HTMLImageElement) {
+  if (image.src === '') {
+    image.src = image.getAttribute('data-src') as string
   }
 }
