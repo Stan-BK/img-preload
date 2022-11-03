@@ -11,6 +11,7 @@ interface ImgCallback {
 
 interface ImgPreloadOptions {
   isLazy?: boolean
+  lazySrcAttr?: string
   onLoad?: ImgCallback["onLoad"]
   onError?: ImgCallback["onError"]
   onFinish?: ImgCallback["onFinish"]
@@ -19,9 +20,10 @@ interface ImgPreloadOptions {
 }
 
 class ImgPreload extends ImgEventHandler {
+  readonly isLazy: boolean
+  readonly lazySrcAttr: string
   readonly images: ArrayLike<HTMLImageElement> // collection of images
   readonly shade: Shade // shade for covering page while images are loading
-  readonly isLazy: boolean
   readonly onLoad: ImgCallback["onLoad"]
   readonly onError: ImgCallback["onError"]
   readonly onFinish: ImgCallback["onFinish"]
@@ -32,6 +34,7 @@ class ImgPreload extends ImgEventHandler {
 
   constructor({
     isLazy = false,
+    lazySrcAttr = 'data-src',
     onLoad = NOOP, 
     onError = NOOP,
     onFinish = NOOP,
@@ -50,6 +53,7 @@ class ImgPreload extends ImgEventHandler {
     this.onLoad = onLoad
     this.onError = onError
     this.onFinish = onFinish
+    this.lazySrcAttr = lazySrcAttr
     this.shade = new Shade({
       customShade,
       customColor
@@ -60,7 +64,7 @@ class ImgPreload extends ImgEventHandler {
 
   private init() {
     initPool(this.images)
-    this.isLazy && lazyLoad()
+    this.isLazy && lazyLoad(this.lazySrcAttr)
     this.bindEvent()
   }
 

@@ -1,7 +1,10 @@
 import { images } from "./pool";
 import { getOffset } from "./util";
 
-export function lazyLoad() {
+let lazySrcAttr: string
+
+export function lazyLoad(attr: string) {
+  lazySrcAttr = attr
   let callback
   for (const image of images) {
     const isVisible = handleImageLoad(image)
@@ -30,6 +33,6 @@ function handleImageLoad(image: HTMLImageElement, callback?: () => any) {
 
 function loadImg(image: HTMLImageElement) {
   if (image.src === '') {
-    image.src = image.getAttribute('data-src') as string
+    image.src = image.getAttribute(lazySrcAttr) as string
   }
 }
