@@ -55,7 +55,11 @@ class ImgPreload extends ImgEventHandler {
       customShade,
       customColor
     })
-    
+
+    this.init()
+  }
+
+  private init() {
     this.bindEvent()
   }
 
