@@ -5,11 +5,24 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <style>
+    body {
+      height: 5000px;
+    }
+    img {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+    }
+  </style>
 </head>
 <body>
-  <script type="module">
-    import ImgPreload from '../src/index'
-    new ImgPreload()
-  </script>
+  <img id="img" src="https://source.geminikspace.com/24時·Am.jpg" alt="">
+  <img style="top: 700px;" data-src="https://source.geminikspace.com/Mr. Morale & The Big Steppers.jpg" alt="">
+  <img style="top: 1400px;" data-src="https://source.geminikspace.com/Twenties.jpg" alt="">
+  <img style="top: 2100px;" data-src="https://source.geminikspace.com/就是哈比.jpg" alt="">
+  <img style="top: 2800px;" data-src="https://source.geminikspace.com/飞行器的执行周期.jpg" alt="">
+
+  <script type="module" src="index.ts"></script>
 </body>
 </html>
