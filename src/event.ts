@@ -49,7 +49,7 @@ export default class ImgEventHandler {
   updateProgress(this: ImgPreload, loadImg: HTMLImageElement) {
     this.currentLoadImg = loadImg
     this.progress = ++this.loadedCount / this.images.length
-    this.shade.render(this.progress)
+    this.shade.render(this.progress * 100)
   }
 
 }
