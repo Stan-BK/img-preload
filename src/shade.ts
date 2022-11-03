@@ -10,6 +10,7 @@ class Shade {
   shade: HTMLElement
   private lastPercent: number = 0
   private lastTime: number = 0
+  private lastRenderPercent: number = 0
   private target: number = 0
   private isHidden: boolean = false
   private isCustom: boolean = false
@@ -119,10 +120,10 @@ class Shade {
 
   private renderShade(time: number = 0) {
     const per = this.lastPercent
-    if (per > 100 || per > this.target) return
+    if ((per > 100 || per > this.target) && this.lastRenderPercent > 100) return
     if (time - this.lastTime > 20) {
       this.lastTime = time
-      this.percentSign.innerHTML = `${per}%`
+      this.percentSign.innerHTML = `${this.lastRenderPercent = per}%`
       this.shade.style.background = `linear-gradient(to right, #ccc, transparent ${50 - per / 2}%),
                                      linear-gradient(to left, #ccc, transparent ${50 - per / 2}%),
                                      linear-gradient(#f3f3f3, #f3f3f3)`
@@ -132,7 +133,7 @@ class Shade {
       }
     }
     
-    this.lastPercent = per + 1
+    per < 100 && (this.lastPercent = per + 1)
     requestAnimationFrame(this.renderShade.bind(this))
   }
 
