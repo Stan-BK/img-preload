@@ -45,7 +45,7 @@ class ImgPreload extends ImgEventHandler {
     }
 
     this.images = document.images
-    images.splice(0, images.length, Array.from(this.images))
+    images.splice(0, images.length, ...Array.from(this.images))
 
     this.isLazy = isLazy
     this.onLoad = onLoad
