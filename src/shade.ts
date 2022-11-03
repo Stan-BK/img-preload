@@ -130,6 +130,7 @@ class Shade {
 
       if (per === 100) {
         setTimeout(() => this.hide(), 500)
+        return
       }
     }
     
