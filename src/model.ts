@@ -3,7 +3,7 @@ import { default as Shade, ShadeOptions } from './shade'
 import { initPool } from "./pool"
 import { lazyLoad } from "./lazyLoad"
 
-interface ImgCallback {
+export interface ImgCallback {
   onLoad(currentLoadedImg: HTMLImageElement): any
   onError(currentErrorImg: HTMLImageElement): any
   onFinish(loadedImgs: HTMLImageElement[], failedImgs: HTMLImageElement[]): any
