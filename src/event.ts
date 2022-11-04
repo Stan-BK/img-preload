@@ -1,45 +1,31 @@
-import type ImgPreload from "./model";
-import { loadedImages, failedImages } from "./pool";
+import type { default as ImgPreload, ImgCallback } from "./model";
+import { images, loadedImages, failedImages } from "./pool";
 
 export const NOOP = () => {}
 
 export default class ImgEventHandler {
   handleImgLoaded(this: ImgPreload , img: HTMLImageElement) {
-    const handler = () => {
-      loadedImages.push(img)
+    const encodeUri = getParsedUri(this.lazySrcAttr, img)
+
+    // img already loaded and will not be reload
+    if (img.complete && encodeUri === img.src) {
       this.onLoad(img)
       this.updateProgress(img)
-      
-      if (this.images.length === loadedImages.length + failedImages.length) {
-        this.handleImgAllSettle()
-      }
-    }
-
-    if (img.complete) {
-      handler()
       return
     }
 
-    img.addEventListener('load', handler)
+    img.addEventListener('load', this.handler.bind(this, 'load', this.onLoad, img))
   }
 
   handleImgLoadFaild(this: ImgPreload, img: HTMLImageElement) {
-    const handler = () => {
-      failedImages.push(img)
-      this.onError(img)
-      this.updateProgress(img)
-      
-      if (this.images.length === loadedImages.length + failedImages.length) {
-        this.handleImgAllSettle()
-      }
-    }
+    const encodeUri = getParsedUri(this.lazySrcAttr, img)
 
-    if (img.complete) {
-      handler()
+    // img already loaded and will not be reload
+    if (img.complete && encodeUri === img.src) {
       return
     }
 
-    img.addEventListener('error', handler)
+    img.addEventListener('error', this.handler.bind(this, 'error', this.onError, img))
   }
 
   handleImgAllSettle(this: ImgPreload) {
@@ -48,8 +34,29 @@ export default class ImgEventHandler {
 
   updateProgress(this: ImgPreload, loadImg: HTMLImageElement) {
     this.currentLoadImg = loadImg
-    this.progress = ++this.loadedCount / this.images.length
+    this.progress = ++this.loadedCount / images.length
     this.shade.render(this.progress * 100)
   }
 
+  private handler(this: ImgPreload, type: 'load' | 'error', callback: ImgCallback["onLoad"] | ImgCallback["onError"], img: HTMLImageElement) {
+    const encodeUri = getParsedUri(this.lazySrcAttr, img)
+    
+    if (this.isLazy && encodeUri !== img.src) {
+      return
+    }
+
+    type === 'load' ? loadedImages.push(img) : failedImages.push(img)
+    callback(img)
+    this.updateProgress(img)
+    
+    if (images.length === loadedImages.length + failedImages.length) {
+      this.handleImgAllSettle()
+    }
+  }
+
+}
+
+function getParsedUri(srcAttr: string, img: HTMLImageElement) {
+  const uri = img.getAttribute(srcAttr)!
+  return encodeURI(uri) === 'null' ? img.src : encodeURI(uri)  
 }
