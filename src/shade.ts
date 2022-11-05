@@ -120,7 +120,8 @@ class Shade {
 
   private renderShade(time: number = 0) {
     const per = this.lastPercent
-    if ((per > 100 || per > this.target) && this.lastRenderPercent > 100) return
+    per < this.target && (this.lastPercent++)
+    if (per === this.lastRenderPercent) return
     if (time - this.lastTime > 20) {
       this.lastTime = time
       this.percentSign.innerHTML = `${this.lastRenderPercent = per}%`
@@ -134,7 +135,6 @@ class Shade {
       }
     }
     
-    per < 100 && (this.lastPercent = per + 1)
     requestAnimationFrame(this.renderShade.bind(this))
   }
 
