@@ -10,6 +10,7 @@ export default class ImgEventHandler {
     // img already loaded and will not be reload
     if (img.complete && encodeUri === img.src) {
       this.onLoad(img)
+      loadedImages.push(img)
       this.updateProgress(img)
       return
     }
@@ -36,6 +37,10 @@ export default class ImgEventHandler {
     this.currentLoadImg = loadImg
     this.progress = ++this.loadedCount / images.length
     this.shade.render(this.progress * 100)
+    
+    if (images.length === loadedImages.length + failedImages.length) {
+      this.handleImgAllSettle()
+    }
   }
 
   private handler(this: ImgPreload, type: 'load' | 'error', callback: ImgCallback["onLoad"] | ImgCallback["onError"], img: HTMLImageElement) {
@@ -48,10 +53,6 @@ export default class ImgEventHandler {
     type === 'load' ? loadedImages.push(img) : failedImages.push(img)
     callback(img)
     this.updateProgress(img)
-    
-    if (images.length === loadedImages.length + failedImages.length) {
-      this.handleImgAllSettle()
-    }
   }
 
 }
