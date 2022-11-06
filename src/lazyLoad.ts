@@ -23,7 +23,7 @@ export function lazyLoad(isLazy: boolean, attr: string) {
     }
   }
   
-  images.splice(0, images.length, ...arr) // store images in view
+  isLazy && images.splice(0, images.length, ...arr) // store images in view
 }
 
 function handleImageLoad(image: HTMLImageElement, callback?: () => any) {
