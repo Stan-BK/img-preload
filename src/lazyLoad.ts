@@ -6,6 +6,7 @@ let lazySrcAttr: string
 export function lazyLoad(isLazy: boolean, attr: string) {
   lazySrcAttr = attr
   let callback
+  const arr = []
   for (const image of images) {
     const isVisible = handleImageLoad(image)
     
@@ -13,13 +14,16 @@ export function lazyLoad(isLazy: boolean, attr: string) {
       loadImg(image)
       continue
     }
-
+    
     if (!isVisible) {
       callback = handleImageLoad.bind(null, image, callback)
       document.addEventListener('scroll', callback)
+    } else {
+      arr.push(image)
     }
   }
   
+  images.splice(0, images.length, ...arr) // store images in view
 }
 
 function handleImageLoad(image: HTMLImageElement, callback?: () => any) {
