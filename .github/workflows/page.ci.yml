@@ -36,8 +36,10 @@ jobs:
           version: 7.13.5
       - name: Setup Pages
         uses: actions/configure-pages@v2
+      - name: Prepare Environment
+        run: pnpm install
       - name: Build Project
-        run: npm run build
+        run: pnpm run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
