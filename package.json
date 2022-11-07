@@ -12,8 +12,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
-    "build-pages": "cd ./example && tsc index.ts"
+    "build": "tsc && vite build"
   },
   "keywords": [],
   "author": "",
