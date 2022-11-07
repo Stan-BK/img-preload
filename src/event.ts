@@ -35,10 +35,13 @@ export default class ImgEventHandler {
 
   updateProgress(this: ImgPreload, loadImg: HTMLImageElement) {
     this.currentLoadImg = loadImg
-    this.progress = ++this.loadedCount / images.length
+
+    if (++this.loadedCount > images.length) return
+
+    this.progress = this.loadedCount / images.length
     this.shade.render(this.progress * 100)
     
-    if (images.length === loadedImages.length + failedImages.length) {
+    if (images.length === this.loadedCount) {
       this.handleImgAllSettle()
     }
   }
