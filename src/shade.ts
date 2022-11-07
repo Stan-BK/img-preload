@@ -1,8 +1,13 @@
 type Styles = Partial<Record<keyof CSSStyleDeclaration, string>>
 type CustomColor = string | string[] | undefined
+type CustomShade = undefined | HTMLElement | ((percent: number, options: {
+                                                shade: HTMLElement
+                                                show: Shade["show"]
+                                                hide: Shade["hide"]
+                                              }) => any)
 
 export interface ShadeOptions { 
-  customShade?: HTMLElement, 
+  customShade?: CustomShade, 
   customColor?: CustomColor 
 }
 
@@ -15,12 +20,18 @@ class Shade {
   private isHidden: boolean = false
   private isCustom: boolean = false
   private percentSign: HTMLElement = document.createElement('span')
+  private customShade: CustomShade
+  private customColor: CustomColor
   constructor(shadeOptions: ShadeOptions = {}) {
     const { customShade, customColor } = shadeOptions
-    this.shade = this.initShade(customShade, customColor)
+    this.customShade = customShade
+    this.customColor = customColor
+    this.shade = this.initShade()
   }
 
-  private initShade(customShade?: HTMLElement, customColor?: CustomColor) {
+  private initShade() {
+    const customShade = this.customShade
+    const customColor = this.customColor
     const shade = document.createElement('div')
 
     const { marginLeft, marginRight, marginTop, marginBottom } = getBodyMargin()
@@ -42,14 +53,24 @@ class Shade {
     }
 
     if (customShade) {
-      if ( !(customShade instanceof HTMLElement) ) {
-        throw new Error(`customShade expect a HTML element, but got a ${customShade}`)
-      }
-      
-      this.isCustom = true
+      const isFunc = typeof customShade === 'function'
+      if ( !(customShade instanceof HTMLElement) && !isFunc ) {
+        throw new Error(`customShade expect a HTML element or a function, but got a ${customShade}`)
+      } 
 
-      this.percentSign.remove()
-      shade.appendChild(customShade)
+      this.isCustom = true
+      
+      if (isFunc) {
+        customShade(0, {
+          shade,
+          show: this.show,
+          hide: this.hide
+        })
+      } else {
+        shade.appendChild(customShade)
+      }
+
+      this.percentSign.remove() // clear it since never use
     } else {
       this.renderDefaultStyle(customColor)
 
@@ -113,7 +134,15 @@ class Shade {
   }
 
   render(per: number) {
-    if (this.isCustom) return
+    if (this.isCustom) {
+      const customShade = this.customShade
+      typeof customShade === 'function' && customShade(per, {
+        shade: this.shade,
+        show: this.show,
+        hide: this.hide
+      })
+      return
+    }
     this.target = per
     requestAnimationFrame(this.renderShade.bind(this))
   }
