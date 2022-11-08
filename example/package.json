@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc && vite build"
+    "build": "pnpm install && tsc && vite build"
   },
   "author": "Kkk",
   "license": "MIT",
