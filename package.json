@@ -1,6 +1,6 @@
 {
   "name": "@stan_bk/img-preload",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "An scheme for imgs loading scheme while page rendering.",
   "main": "index.js",
   "type": "module",
@@ -12,8 +12,10 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build && cd ./example && npm run build"
+    "build": "tsc && vite build && cd ./example && npm run build",
+    "prepublishOnly": "tsc && vite build"
   },
+  "files": ["dist/*"],
   "keywords": [],
   "author": "Kkk",
   "license": "MIT",
