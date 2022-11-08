@@ -7,21 +7,103 @@
   <title>Document</title>
   <style>
     body {
-      height: 5000px;
+      margin: 0;
+      scroll-behavior: smooth;
+    }
+    img {
+      width: 500px;
+      height: 500px;
+    }
+    .img-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100vw;
+      height: 100vw;
+      max-width: 800px;
+      max-height: 800px;
+      margin: 0 auto;
     }
     img {
       position: absolute;
-      width: 500px;
-      height: 500px;
+      width: 70%;
+      height: 70%;
+      border-radius: 5px;
+    }
+    .bg {
+      width: 100%;
+      height: 100%;
+      filter: blur(4px);
+    }
+    .intro {
+      position: fixed;
+      left: 20px;
+      top: 20px;
+      width: 200px;
+      height: 150px;
+      box-shadow: 4px 4px 4px inset rgb(0, 255, 255, .2), -4px -4px 4px inset rgb(0, 255, 255, .2);
+      color: rgb(0, 255, 255, .5);
+      border-radius: 10px;
+      z-index: 1;
+    }
+    .intro li {
+      color: rgb(0, 255, 255, .5);
+    }
+    .loaded-list-wrap {
+      position: fixed;
+      left: 20px;
+      top: 200px;
+      width: 200px;
+      min-height: 200px;
+      border-radius: 10px;
+      z-index: 1;
+      box-shadow: 4px 4px 4px inset rgb(0, 255, 255, .2), -4px -4px 4px inset rgb(0, 255, 255, .2);
+      color: rgb(0, 255, 255, .6);
+    }
+    .loaded-list li {
+      cursor: pointer;
+      color: rgb(0, 255, 255, .5)
+    }
+    .loaded-list li:hover {
+      color: rgb(0, 255, 255);
     }
   </style>
 </head>
 <body>
-  <img id="img" src="https://source.geminikspace.com/24時·Am.jpg" alt="">
-  <img style="top: 700px;" data-src="https://source.geminikspace.com/Mr. Morale & The Big Steppers.jpg" alt="">
-  <img style="top: 1400px;" data-src="https://source.geminikspace.com/Twenties.jpg" alt="">
-  <img style="top: 2100px;" data-src="https://source.geminikspace.com/就是哈比.jpg" alt="">
-  <img style="top: 2800px;" data-src="https://source.geminikspace.com/飞行器的执行周期.jpg" alt="">
+  <div class="intro">
+    <h3 style="text-align: center;">Img-Preload</h3>
+    <ul>
+      <li style="list-style: none;margin-left: -25px;">Current configuration:</li>
+      <li>use default shade</li>
+      <li>enable lazyload</li>
+    </ul>
+  </div>
+  <div class="loaded-list-wrap">
+    <h3 style="text-align: center;">loaded image</h3>
+    <h4 style="text-align: center;">(These images are covers of albums which are one of my favorites)</h4>
+    <ul class="loaded-list"></ul>
+  </div>
+  <div class="img-wrap" id="24時·Am">
+    <img class="bg" data-src="https://source.geminikspace.com/24時·Am.jpg" alt="">
+    <img id="img" src="https://source.geminikspace.com/24時·Am.jpg" alt="">
+  </div>
+  <div class="img-wrap" id="Mr. Morale & The Big Steppers">
+    <img class="bg" data-src="https://source.geminikspace.com/Mr. Morale & The Big Steppers.jpg" alt="">
+    <img data-src="https://source.geminikspace.com/Mr. Morale & The Big Steppers.jpg" alt="">
+  </div>
+  <div class="img-wrap" id="Twenties">
+    <img class="bg" data-src="https://source.geminikspace.com/Twenties.jpg" alt="">
+    <img data-src="https://source.geminikspace.com/Twenties.jpg" alt="">
+  </div>
+  <div class="img-wrap" id="就是哈比">
+    <img class="bg" data-src="https://source.geminikspace.com/就是哈比.jpg" alt="">
+    <img data-src="https://source.geminikspace.com/就是哈比.jpg" alt="">
+  </div>
+  <div class="img-wrap" id="飞行器的执行周期">
+    <img class="bg" data-src="https://source.geminikspace.com/飞行器的执行周期.jpg" alt="">
+    <img data-src="https://source.geminikspace.com/飞行器的执行周期.jpg" alt="">
+  </div>
 
   <script type="module" src="index.ts"></script>
 </body>
