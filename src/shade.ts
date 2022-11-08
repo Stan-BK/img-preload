@@ -43,7 +43,8 @@ class Shade {
       height: `calc(100vh + ${marginTop + marginBottom}px)`,
       backgroundColor: '#F3F3F3',
       opacity: '1',
-      transition: 'opacity .4s'
+      transition: 'opacity .4s',
+      zIndex: '99999'
     }
     
     // first render shade
