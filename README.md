@@ -8,11 +8,11 @@ An scheme for imgs loading scheme while page rendering.
 # U can use it by
 
 ```
-pnpm i img-preload
+pnpm i @stan_bk/img-preload
 ```
 
 ```
-import ImgPreload from 'img-preload'
+import ImgPreload from '@stan_bk/img-preload'
 
 new ImgPreload({
   isLazy: true, // if enable lazyload
