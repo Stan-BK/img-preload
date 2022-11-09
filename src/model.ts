@@ -10,6 +10,7 @@ export interface ImgCallback {
 }
 
 interface ImgPreloadOptions {
+  images?: HTMLImageElement[]
   isLazy?: boolean
   lazySrcAttr?: string
   onLoad?: ImgCallback["onLoad"]
@@ -33,6 +34,7 @@ class ImgPreload extends ImgEventHandler {
   protected loadedCount: number = 0
 
   constructor({
+    images,
     isLazy = false,
     lazySrcAttr = 'data-src',
     onLoad = NOOP, 
@@ -48,7 +50,7 @@ class ImgPreload extends ImgEventHandler {
       throw new Error('ImgPreload only access in browser.')
     }
 
-    this.images = document.images
+    this.images = Array.isArray(images) ? images : document.images
     this.isLazy = isLazy
     this.onLoad = onLoad
     this.onError = onError

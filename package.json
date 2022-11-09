@@ -1,6 +1,6 @@
 {
   "name": "@stan_bk/img-preload",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "An scheme for imgs loading scheme while page rendering.",
   "main": "index.js",
   "type": "module",

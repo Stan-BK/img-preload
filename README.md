@@ -15,6 +15,7 @@ pnpm i @stan_bk/img-preload
 import ImgPreload from '@stan_bk/img-preload'
 
 new ImgPreload({
+  imaegs: [] // need an array of images that are expected to handle loading, default: document.images
   isLazy: true, // if enable lazyload
   lazySrcAttr: 'data-src', // src attribute name to access
   customShade: document.createElement('div'), // custom shade, expect a document element or function
