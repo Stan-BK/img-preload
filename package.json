@@ -1,6 +1,6 @@
 {
   "name": "@stan_bk/img-preload",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "An scheme for imgs loading scheme while page rendering.",
   "main": "index.js",
   "type": "module",
@@ -13,7 +13,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build && tsc --declaration && cd ./example && npm run build",
-    "prepublishOnly": "tsc && vite build"
+    "prepublishOnly": "tsc && vite build && tsc --declaration"
   },
   "files": [
     "dist/*"
