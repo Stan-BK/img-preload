@@ -1,5 +1,7 @@
 # Img Preload
 An scheme for imgs loading scheme while page rendering.
+
+Here is the sample: https://stan-bk.github.io/img-preload/
 # U can use it to
 1. handle all images loading progress which are in the first page
 2. use lazyload to speed up imgs-loading and page-rendering
