@@ -37,7 +37,7 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v2
       - name: Prepare Environment
-        run: pnpm install
+        run: pnpm install --no-frozen-lockfile
       - name: Build Project
         run: pnpm run build
       - name: Upload artifact
