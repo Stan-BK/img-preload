@@ -86,7 +86,7 @@ class ImgPreload extends ImgEventHandler {
       const img = images[i]
 
       this.handleImgLoaded(img)
-      this.handleImgLoadFaild(img)
+      this.handleImgLoadFailed(img)
     }
   }
 
