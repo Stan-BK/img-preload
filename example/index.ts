@@ -1,5 +1,5 @@
 import ImgPreload from '../src/index'
-const list = []
+
 const loadedList = document.getElementsByClassName('loaded-list')[0]
 const imageNameReg = /(.*?).jpg/
 
