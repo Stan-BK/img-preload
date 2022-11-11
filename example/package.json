@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "vite",
     "build": "pnpm install && tsc && vite build"
   },
   "author": "Kkk",
