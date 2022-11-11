@@ -34,7 +34,7 @@ new ImgPreload({
 })
 ```
 # Sth you should know
-1. Img Preload only run in browser cause it need access document
+1. Img Preload only run in browser cause it need to access document
 2. When lazyload option is enabled, 
 - you are expect to pass img source path to attribute which named by the value of `lazySrcAttr` instead `src`
 - the source path will reload with `lazySrcAttr` if it has both `lazySrcAttr` and `src` attribute
