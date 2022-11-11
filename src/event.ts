@@ -18,7 +18,7 @@ export default class ImgEventHandler {
     img.addEventListener('load', this.handler.bind(this, 'load', this.onLoad, img))
   }
 
-  handleImgLoadFaild(this: ImgPreload, img: HTMLImageElement) {
+  handleImgLoadFailed(this: ImgPreload, img: HTMLImageElement) {
     const encodeUri = getParsedUri(this.lazySrcAttr, img)
 
     // img already loaded and will not be reload

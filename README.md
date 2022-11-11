@@ -9,11 +9,11 @@ Here is the sample: https://stan-bk.github.io/img-preload/
 
 # U can use it by
 
-```
+```bash
 pnpm i @stan_bk/img-preload
 ```
 
-```
+```js
 import ImgPreload from '@stan_bk/img-preload'
 
 new ImgPreload({
