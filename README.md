@@ -1,5 +1,5 @@
 # Img Preload
-An scheme for imgs loading scheme while page rendering.
+A scheme for imgs loading while page is rendering.
 
 Here is the sample: https://stan-bk.github.io/img-preload/
 # U can use it to
