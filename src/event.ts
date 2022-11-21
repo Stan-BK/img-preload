@@ -5,6 +5,8 @@ export const NOOP = () => { }
 
 export default class ImgEventHandler {
   handleImgLoaded(this: ImgPreload, img: ImgPoolType) {
+    img.setAttribute('is-handle-load', 'true')
+
     if (img instanceof SVGImageElement) {
       const sibling = img.nextSibling
       const parent = img.parentElement!
