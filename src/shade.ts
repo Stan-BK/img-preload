@@ -1,14 +1,14 @@
 type Styles = Partial<Record<keyof CSSStyleDeclaration, string>>
 type CustomColor = string | string[] | undefined
 type CustomShade = undefined | HTMLElement | ((percent: number, options: {
-                                                shade: HTMLElement
-                                                show: Shade["show"]
-                                                hide: Shade["hide"]
-                                              }) => any)
+  shade: HTMLElement
+  show: Shade["show"]
+  hide: Shade["hide"]
+}) => any)
 
-export interface ShadeOptions { 
-  customShade?: CustomShade, 
-  customColor?: CustomColor 
+export interface ShadeOptions {
+  customShade?: CustomShade,
+  customColor?: CustomColor
 }
 
 class Shade {
@@ -46,7 +46,7 @@ class Shade {
       transition: 'opacity .4s',
       zIndex: '99999'
     }
-    
+
     // first render shade
     for (let [key, value] of Object.entries(baseShadeStyle)) {
       // @ts-expect-error
@@ -55,12 +55,12 @@ class Shade {
 
     if (customShade) {
       const isFunc = typeof customShade === 'function'
-      if ( !(customShade instanceof HTMLElement) && !isFunc ) {
+      if (!(customShade instanceof HTMLElement) && !isFunc) {
         throw new Error(`customShade expect a HTML element or a function, but got a ${customShade}`)
-      } 
+      }
 
       this.isCustom = true
-      
+
       if (isFunc) {
         customShade(0, {
           shade,
@@ -92,9 +92,9 @@ class Shade {
   renderDefaultStyle(customColor?: CustomColor) {
     const LGBTQIA_style = 'linear-gradient(135deg, red, orange, yellow, green, blue, purple, red, orange, yellow, green, blue, purple, red)'
     const bgc = customColor ? Array.isArray(customColor) ? `linear-gradient(135deg, ${customColor.length === 1 ? customColor[0] + ',' + customColor[0] : customColor.toString()})`
-                                                         : `linear-gradient(135deg, ${customColor}, ${customColor})`
-                            : LGBTQIA_style
-    
+      : `linear-gradient(135deg, ${customColor}, ${customColor})`
+      : LGBTQIA_style
+
     const percentSignStyle: Styles = {
       position: 'fixed',
       left: '50vw',
@@ -149,8 +149,8 @@ class Shade {
   }
 
   private renderShade(time: number = 0) {
+    this.lastPercent < this.target && (this.lastPercent++)
     const per = this.lastPercent
-    per < this.target && (this.lastPercent++)
     if (per === this.lastRenderPercent) return
     if (time - this.lastTime > 20) {
       this.lastTime = time
@@ -164,7 +164,7 @@ class Shade {
         return
       }
     }
-    
+
     requestAnimationFrame(this.renderShade.bind(this))
   }
 

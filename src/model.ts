@@ -1,16 +1,17 @@
 import { default as ImgEventHandler, NOOP } from "./event"
 import { default as Shade, ShadeOptions } from './shade'
-import { initPool } from "./pool"
+import { images as imgs } from "./pool"
+import type { ImgPoolType } from "./pool"
 import { lazyLoad } from "./lazyLoad"
 
 export interface ImgCallback {
-  onLoad(currentLoadedImg: HTMLImageElement): any
-  onError(currentErrorImg: HTMLImageElement): any
-  onFinish(loadedImgs: HTMLImageElement[], failedImgs: HTMLImageElement[]): any
+  onLoad(currentLoadedImg: HTMLImageElement | SVGImageElement): any
+  onError(currentErrorImg: HTMLImageElement | SVGImageElement): any
+  onFinish(loadedImgs: ImgPoolType[], failedImgs: ImgPoolType[]): any
 }
 
 interface ImgPreloadOptions {
-  images?: HTMLImageElement[]
+  images?: ImgPoolType[]
   isLazy?: boolean
   lazySrcAttr?: string
   onLoad?: ImgCallback["onLoad"]
@@ -23,13 +24,13 @@ interface ImgPreloadOptions {
 class ImgPreload extends ImgEventHandler {
   readonly isLazy: boolean
   readonly lazySrcAttr: string
-  readonly images: ArrayLike<HTMLImageElement> // collection of images
+  readonly images: ImgPoolType[] // collection of images
   readonly shade: Shade // shade for covering page while images are loading
   readonly onLoad: ImgCallback["onLoad"]
   readonly onError: ImgCallback["onError"]
   readonly onFinish: ImgCallback["onFinish"]
-  
-  currentLoadImg: HTMLImageElement | undefined // the image has loaded or failed
+
+  currentLoadImg: HTMLImageElement | SVGImageElement | undefined // the image has loaded or failed
   progress: number = 0 // the progress of images loading
   protected loadedCount: number = 0
 
@@ -37,7 +38,7 @@ class ImgPreload extends ImgEventHandler {
     images,
     isLazy = false,
     lazySrcAttr = 'data-src',
-    onLoad = NOOP, 
+    onLoad = NOOP,
     onError = NOOP,
     onFinish = NOOP,
     customShade,
@@ -50,7 +51,8 @@ class ImgPreload extends ImgEventHandler {
       throw new Error('ImgPreload only access in browser.')
     }
 
-    this.images = Array.isArray(images) ? images : document.images
+    this.images = Array.isArray(images) ? images : [...Array.from(document.images), ...Array.from(document.querySelectorAll('image'))]
+    imgs.splice(0, imgs.length, ...this.images)
     this.isLazy = isLazy
     this.onLoad = onLoad
     this.onError = onError
@@ -65,7 +67,6 @@ class ImgPreload extends ImgEventHandler {
   }
 
   private init() {
-    initPool(this.images)
     lazyLoad(this.isLazy, this.lazySrcAttr)
     this.bindEvent()
   }
