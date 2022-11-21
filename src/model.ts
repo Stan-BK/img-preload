@@ -1,6 +1,6 @@
 import { default as ImgEventHandler, NOOP } from "./event"
 import { default as Shade, ShadeOptions } from './shade'
-import { images as imgs } from "./pool"
+import { initPool } from "./pool"
 import type { ImgPoolType } from "./pool"
 import { lazyLoad } from "./lazyLoad"
 
@@ -51,8 +51,7 @@ class ImgPreload extends ImgEventHandler {
       throw new Error('ImgPreload only access in browser.')
     }
 
-    this.images = Array.isArray(images) ? images : [...Array.from(document.images), ...Array.from(document.querySelectorAll('image'))]
-    imgs.splice(0, imgs.length, ...this.images)
+    this.images = initPool(Array.isArray(images) ? images : [...Array.from(document.images), ...Array.from(document.querySelectorAll('image'))])
     this.isLazy = isLazy
     this.onLoad = onLoad
     this.onError = onError
