@@ -24,7 +24,7 @@ interface ImgPreloadOptions {
 class ImgPreload extends ImgEventHandler {
   readonly isLazy: boolean
   readonly lazySrcAttr: string
-  readonly images: ImgPoolType[] // collection of images
+  images: ImgPoolType[] // collection of images
   readonly shade: Shade // shade for covering page while images are loading
   readonly onLoad: ImgCallback["onLoad"]
   readonly onError: ImgCallback["onError"]
@@ -51,7 +51,7 @@ class ImgPreload extends ImgEventHandler {
       throw new Error('ImgPreload only access in browser.')
     }
 
-    this.images = initPool(Array.isArray(images) ? images : [...Array.from(document.images), ...Array.from(document.querySelectorAll('image'))])
+    this.images = initPool(images)
     this.isLazy = isLazy
     this.onLoad = onLoad
     this.onError = onError
@@ -88,8 +88,24 @@ class ImgPreload extends ImgEventHandler {
       this.handleImgLoaded(img)
       this.handleImgLoadFailed(img)
     }
+
+    if (images.length === 0) {
+      this.shade.render(100)
+      this.handleImgAllSettle()
+    }
   }
 
+  reload(images?: ImgPoolType[]) {
+    for (let img of this.images) {
+      img.removeEventListener('load', img.preloadLoadEventHandler)
+      img.removeEventListener('error', img.preloadErrorEventHandler)
+    }
+
+    this.images = initPool(images)
+    this.progress = 0
+    this.loadedCount = 0
+    this.init()
+  }
 }
 
 export default ImgPreload

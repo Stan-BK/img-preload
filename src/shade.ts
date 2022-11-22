@@ -13,15 +13,16 @@ export interface ShadeOptions {
 
 class Shade {
   shade: HTMLElement
-  private lastPercent: number = 0
-  private lastTime: number = 0
-  private lastRenderPercent: number = 0
-  private target: number = 0
-  private isHidden: boolean = false
-  private isCustom: boolean = false
+  private lastPercent = 0
+  private lastTime = 0
+  private lastRenderPercent = 0
+  private target = 0
+  private isHidden = false
+  private isCustom = false
   private percentSign: HTMLElement = document.createElement('span')
   private customShade: CustomShade
   private customColor: CustomColor
+  private animationFrame: number = 0
   constructor(shadeOptions: ShadeOptions = {}) {
     const { customShade, customColor } = shadeOptions
     this.customShade = customShade
@@ -76,7 +77,6 @@ class Shade {
       this.renderDefaultStyle(customColor)
 
       shade.appendChild(this.percentSign)
-      this.render(100)
     }
 
     // add transition for hiding shade
@@ -145,7 +145,8 @@ class Shade {
       return
     }
     this.target = per
-    requestAnimationFrame(this.renderShade.bind(this))
+    cancelAnimationFrame(this.animationFrame)
+    this.animationFrame = requestAnimationFrame(this.renderShade.bind(this))
   }
 
   private renderShade(time: number = 0) {
@@ -180,6 +181,15 @@ class Shade {
     this.isHidden = true
   }
 
+  reload() {
+    if (this.percentSign) this.percentSign.innerHTML = '0%'
+    this.lastPercent = 0
+    this.lastTime = 0
+    this.lastRenderPercent = 0
+    this.target = 0
+    this.isHidden = false
+    this.show()
+  }
 }
 
 function getBodyMargin() {

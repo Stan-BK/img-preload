@@ -24,7 +24,9 @@ export default class ImgEventHandler {
       }
     }
 
-    img.addEventListener('load', this.handler.bind(this, 'load', this.onLoad, img))
+    const handler = this.handler.bind(this, 'load', this.onLoad, img)
+    img.addEventListener('load', handler)
+    img.preloadLoadEventHandler = handler
   }
 
   handleImgLoadFailed(this: ImgPreload, img: HTMLImageElement | SVGImageElement) {
@@ -37,7 +39,9 @@ export default class ImgEventHandler {
       }
     }
 
-    img.addEventListener('error', this.handler.bind(this, 'error', this.onError, img))
+    const handler = this.handler.bind(this, 'error', this.onError, img)
+    img.addEventListener('error', handler)
+    img.preloadErrorEventHandler = handler
   }
 
   handleImgAllSettle(this: ImgPreload) {

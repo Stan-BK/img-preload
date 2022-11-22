@@ -3,7 +3,10 @@
     "target": "ESNext",
     "useDefineForClassFields": true,
     "module": "ESNext",
-    "lib": ["ESNext", "DOM"],
+    "lib": [
+      "ESNext",
+      "DOM"
+    ],
     "moduleResolution": "Node",
     "strict": true,
     "sourceMap": true,
@@ -19,5 +22,8 @@
     "skipLibCheck": true,
     "experimentalDecorators": true
   },
-  "include": ["src"]
+  "include": [
+    "src",
+    "types"
+  ]
 }
