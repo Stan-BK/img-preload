@@ -28,7 +28,7 @@ export function lazyLoad(isLazy: boolean, attr: string) {
 }
 
 function handleImageLoad(image: ImgPoolType, callback?: () => any) {
-  if (image instanceof SVGImageElement) return
+  if (image instanceof SVGImageElement) return true
   const { offsetTop } = getOffset(image)
 
   if (offsetTop > (window.innerHeight + window.scrollY + 500)) { // move up the image load-line

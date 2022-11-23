@@ -8,10 +8,7 @@ export default class ImgEventHandler {
     img.setAttribute('is-handle-load', 'true')
 
     if (img instanceof SVGImageElement) {
-      const sibling = img.nextSibling
-      const parent = img.parentElement!
-      parent.removeChild(img)
-      parent.insertBefore(img, sibling)
+      img.setAttribute('href', img.href.baseVal)
     } else {
       const encodeUri = getParsedUri(this.lazySrcAttr, img)
 
