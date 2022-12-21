@@ -66,8 +66,8 @@ class ImgPreload extends ImgEventHandler {
   }
 
   private init() {
-    lazyLoad(this.isLazy, this.lazySrcAttr)
     this.bindEvent()
+    lazyLoad(this.isLazy, this.lazySrcAttr)
   }
 
   // for showing shade
