@@ -8,7 +8,7 @@ export default class ImgEventHandler {
     img.setAttribute('is-handle-load', 'true')
 
     if (img instanceof SVGImageElement) {
-      img.setAttribute('href', img.href.baseVal)
+      img.setAttribute('xlink:href', img.href.baseVal)
     } else {
       const encodeUri = getParsedUri(this.lazySrcAttr, img)
 
