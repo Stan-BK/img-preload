@@ -35,6 +35,15 @@ jobs:
       - name: Build Project
         run: |
           pnpm run build || pnpm run build  # Retry logic
+      - name: Ensure gh-pages branch exists
+        run: |
+          git fetch origin
+          if ! git show-ref --verify --quiet refs/heads/gh-pages; then
+            git checkout --orphan gh-pages
+            git reset --hard
+            git commit --allow-empty -m "Initial commit"
+            git push origin gh-pages
+          fi
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
