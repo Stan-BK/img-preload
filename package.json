@@ -1,11 +1,12 @@
 {
   "name": "@stan_bk/img-preload",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "An scheme for imgs loading scheme while page rendering.",
   "main": "index.js",
   "type": "module",
   "exports": {
     ".": {
+      "types": "./dist/types/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     }
