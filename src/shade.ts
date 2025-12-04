@@ -177,6 +177,7 @@ class Shade {
 
   hide() {
     // when the transition of opacity is end, shade will be hidden
+    this.lastPercent = 100
     this.shade.style.opacity = '0'
     this.isHidden = true
   }

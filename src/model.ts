@@ -19,6 +19,7 @@ interface ImgPreloadOptions {
   onFinish?: ImgCallback["onFinish"]
   customShade?: ShadeOptions["customShade"]
   customColor?: ShadeOptions["customColor"]
+  forceFinishTime?: number
 }
 
 class ImgPreload extends ImgEventHandler {
@@ -42,7 +43,8 @@ class ImgPreload extends ImgEventHandler {
     onError = NOOP,
     onFinish = NOOP,
     customShade,
-    customColor
+    customColor,
+    forceFinishTime
   }: ImgPreloadOptions = {}) {
 
     super()
@@ -63,6 +65,12 @@ class ImgPreload extends ImgEventHandler {
     })
 
     this.init()
+
+    if (forceFinishTime) {
+      setTimeout(() => {
+        this.hideShade()
+      }, forceFinishTime)
+    }
   }
 
   private init() {
@@ -71,12 +79,12 @@ class ImgPreload extends ImgEventHandler {
   }
 
   // for showing shade
-  show() {
+  showShade() {
     this.shade.show()
   }
 
   // for hiding shade
-  hide() {
+  hideShade() {
     this.shade.hide()
   }
 
